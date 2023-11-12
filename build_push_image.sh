@@ -14,4 +14,6 @@ docker tag item-app:v1 puttriipus/item-app:v1
 docker login
 
 # Mengunggah image ke Docker Hub
+cat ../dockerpass.txt | docker login --username puttriipus --password-stdin
+docker tag item-app:v1 puttriipus/item-app:v1
 docker push puttriipus/item-app:v1
