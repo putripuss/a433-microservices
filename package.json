@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "node ./node_modules/gulp/bin/gulp.js",
-    "start": "node ./bin/www",
+    "start": "node server.js",
     "stop": "pkill -SIGINT ca-app",
     "test": "karma start",
     "preinstall": "npx npm-force-resolutions"
