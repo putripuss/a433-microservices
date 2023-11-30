@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Perintah untuk build Docker image
-docker build -t puttriipus/karsajobs:latest .
+docker build -t puttriipus/karsajobs-backend:latest .
 
 # Perintah untuk login ke Docker Hub
 docker login 
 
 # Perintah untuk push image ke Docker Hub
-docker push puttriipus/karsajobs:latest
+docker push puttriipus/karsajobs-backend:latest
