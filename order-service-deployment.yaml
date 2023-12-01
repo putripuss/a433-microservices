@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service  # Nama implementasi Deployment untuk layanan pesanan
+spec:
+  replicas: 1  # Satu replika untuk layanan pesanan
+  selector:
+    matchLabels:
+      app: order-service  # Seleksi pod berdasarkan label 'app: order-service'
+  template:
+    metadata:
+      labels:
+        app: order-service  # Label 'app: order-service' untuk pod
+    spec:
+      containers:
+      - name: order-service
+        image: puttriipus/order-service:latest  # Menggunakan gambar Docker terbaru untuk layanan pesanan
+        ports:
+        - containerPort: 3000  # Membuka port 3000 di wadah untuk layanan pesanan
+        env:
+        - name: AMQP_URL
+          value: "amqp://localhost:5672"  # Mengatur variabel lingkungan AMQP_URL dengan URL RabbitMQ
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service  # Nama layanan Kubernetes untuk layanan pesanan
+spec:
+  selector:
+    app: order-service  # Memilih pod dengan label 'app: order-service' untuk layanan ini
+  ports:
+    - protocol: TCP
+      port: 3000  # Port yang diteruskan dari layanan ke pod
+      targetPort: 3000  # Port yang dituju di pod untuk layanan pesanan
