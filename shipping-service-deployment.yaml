@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping-service  # Nama implementasi Deployment untuk layanan pengiriman
+spec:
+  replicas: 1  # Satu replika untuk layanan pengiriman
+  selector:
+    matchLabels:
+      app: shipping-service  # Seleksi pod berdasarkan label 'app: shipping-service'
+  template:
+    metadata:
+      labels:
+        app: shipping-service  # Label 'app: shipping-service' untuk pod
+    spec:
+      containers:
+      - name: shipping-service
+        image: puttriipus/shipping-service:latest  # Menggunakan gambar Docker terbaru untuk layanan pengiriman
+        ports:
+        - containerPort: 3001  # Membuka port 3001 di wadah untuk layanan pengiriman
+        env:
+        - name: AMQP_URL
+          value: "amqp://localhost:5672"  # Mengatur variabel lingkungan AMQP_URL dengan URL RabbitMQ
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping-service  # Nama layanan Kubernetes untuk layanan pengiriman
+spec:
+  selector:
+    app: shipping-service  # Memilih pod dengan label 'app: shipping-service' untuk layanan ini
+  ports:
+    - protocol: TCP
+      port: 3001  # Port yang diteruskan dari layanan ke pod
+      targetPort: 3001  # Port yang dituju di pod untuk layanan pengiriman
